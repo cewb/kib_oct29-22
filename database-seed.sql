@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS public.person (
 
 );
 -- ddl-end --
-ALTER TABLE public.person OWNER TO postgres;
+ALTER TABLE public.person OWNER TO root;
 -- ddl-end --
 
 -- object: public.per_contact | type: TABLE --
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS public.per_contact (
 
 );
 -- ddl-end --
-ALTER TABLE public.per_contact OWNER TO postgres;
+ALTER TABLE public.per_contact OWNER TO root;
 -- ddl-end --
 
 -- object: public.location | type: TABLE --
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public.location (
 
 );
 -- ddl-end --
-ALTER TABLE public.location OWNER TO postgres;
+ALTER TABLE public.location OWNER TO root;
 -- ddl-end --
 
 -- object: public.per_email | type: TABLE --
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS public.per_email (
 
 );
 -- ddl-end --
-ALTER TABLE public.per_email OWNER TO postgres;
+ALTER TABLE public.per_email OWNER TO root;
 -- ddl-end --
 
 -- object: public."user" | type: TABLE --
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS public."user" (
 
 );
 -- ddl-end --
-ALTER TABLE public."user" OWNER TO postgres;
+ALTER TABLE public."user" OWNER TO root;
 -- ddl-end --
 
 -- object: public.company | type: TABLE --
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS public.company (
 
 );
 -- ddl-end --
-ALTER TABLE public.company OWNER TO postgres;
+ALTER TABLE public.company OWNER TO root;
 -- ddl-end --
 
 -- object: public.per_address | type: TABLE --
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS public.per_address (
 
 );
 -- ddl-end --
-ALTER TABLE public.per_address OWNER TO postgres;
+ALTER TABLE public.per_address OWNER TO root;
 -- ddl-end --
 
 -- object: public.per_employment | type: TABLE --
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS public.per_employment (
 
 );
 -- ddl-end --
-ALTER TABLE public.per_employment OWNER TO postgres;
+ALTER TABLE public.per_employment OWNER TO root;
 -- ddl-end --
 
 -- object: contact_per_id_fk | type: CONSTRAINT --
