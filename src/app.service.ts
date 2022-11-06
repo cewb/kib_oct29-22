@@ -6,7 +6,7 @@ export class AppService implements OnModuleInit {
   public readonly isDev: boolean = (process.argv[2] != null);
 
   onModuleInit() {
-    console.log("Dev: " + this.isDev)
+    // console.log("Dev: " + this.isDev)
     // throw new Error('Method not implemented.');
   }
 

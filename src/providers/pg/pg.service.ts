@@ -16,7 +16,7 @@ export class PgService implements OnModuleInit  {
     pg = this.pgp(this.connConfig);
 
     onModuleInit() {
-        console.log(this.pg)
+        // console.log(this.pg)
         // throw new Error('Method not implemented.');
       }
 
