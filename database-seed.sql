@@ -88,7 +88,7 @@ ALTER TABLE public."user" OWNER TO root;
 CREATE TABLE IF NOT EXISTS public.company (
 	company_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	name varchar(100) NOT NULL,
-	catch_phase varchar(200),
+	catch_phrase varchar(200),
 	bs varchar(100),
 	CONSTRAINT company_pk PRIMARY KEY (company_id),
 	CONSTRAINT com_name_unique UNIQUE (name)
