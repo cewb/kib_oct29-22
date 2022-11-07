@@ -20,22 +20,85 @@ export class PgService implements OnModuleInit {
     // throw new Error('Method not implemented.');
   }
 
-  pushPhUsers(userArr: JSON[]): Promise<any> {
-    return this.insertPerson(userArr[0]).then((data) => {
+  getDbUsers(): Promise<any> {
+    var users = `
+    SELECT  per.person_id
+        ,per.full_name
+        ,usr.username
+        ,ema.email_address
+        ,loc.street
+        ,loc.suite
+        ,loc.city
+        ,loc.zip_code
+        ,loc.geo_lat
+        ,loc.geo_lng
+        ,com.name com_name
+        ,com.catch_phrase com_catch_phrase
+        ,com.bs com_bs
+    FROM
+    person per JOIN
+    per_contact con ON per.person_id = con.person_id JOIN
+    "user" usr ON per.person_id = usr.person_id JOIN
+    per_email ema ON per.person_id = ema.person_id JOIN
+    per_address addr ON per.person_id = addr.person_id JOIN
+    per_employment emp ON per.person_id = emp.person_id JOIN
+    location loc ON addr.location_id = loc.location_id JOIN
+    company com ON emp.company_id = com.company_id
+    `;
+
+    return this.pg.any(users) as Promise<any>;
+  }
+
+
+  
+  getDbUser(person_id): Promise<any> {
+    var users = `
+    SELECT  per.person_id
+        ,per.full_name
+        ,usr.username
+        ,ema.email_address
+        ,loc.street
+        ,loc.suite
+        ,loc.city
+        ,loc.zip_code
+        ,loc.geo_lat
+        ,loc.geo_lng
+        ,com.name com_name
+        ,com.catch_phrase com_catch_phrase
+        ,com.bs com_bs
+    FROM
+    person per JOIN
+    per_contact con ON per.person_id = con.person_id JOIN
+    "user" usr ON per.person_id = usr.person_id JOIN
+    per_email ema ON per.person_id = ema.person_id JOIN
+    per_address addr ON per.person_id = addr.person_id JOIN
+    per_employment emp ON per.person_id = emp.person_id JOIN
+    location loc ON addr.location_id = loc.location_id JOIN
+    company com ON emp.company_id = com.company_id
+    WHERE per.person_id = ${person_id}
+    `;
+
+    return this.pg.any(users) as Promise<any>;
+  }
+
+
+
+  pushPhUser(userJson: JSON): Promise<any> {
+    return this.insertPerson(userJson).then((data) => {
       let person_id = data[0]["person_id"];
 
-      this.insertUser(userArr[0], person_id);
-      this.insertEmail(userArr[0], person_id);
+      this.insertUser(userJson, person_id);
+      this.insertEmail(userJson, person_id);
 
-      this.insertPerContact(userArr[0], person_id);
+      this.insertPerContact(userJson, person_id);
 
-      this.insertLocation(userArr[0]).then((data) => {
+      this.insertLocation(userJson).then((data) => {
         let location_id = data[0]["location_id"];
 
         this.insertAddress(person_id, location_id);
       });
 
-      this.insertCompany(userArr[0]).then((data) => {
+      this.insertCompany(userJson).then((data) => {
         let company_id = data[0]["company_id"];
 
         this.insertEmployment(person_id, company_id)
@@ -44,7 +107,7 @@ export class PgService implements OnModuleInit {
     ) as Promise<any>;
   }
 
-  getUser(param: string[]): Promise<any> {
+  getPing(param: string[]): Promise<any> {
     var qry = `SELECT 'a' as col1, 'b' as col2 where $1 = $2`;
 
     return this.pg.any(qry, param) as Promise<any>;

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PgService } from './providers/pg/pg.service';
 
@@ -9,15 +9,27 @@ export class AppController {
 
 
   @Get("ping")
-  async getUser(): Promise<string> {
+  async getPing(): Promise<string> {
     //return this.appService.getEnv();
-    return await this.pgService.getUser(['1', '1']);
+    return await this.pgService.getPing(['1', '1']);
   }
 
   @Post("push")
   async postPhUsers(@Body() users: JSON[]) {
     //console.log(users);
-    return await this.pgService.pushPhUsers(users);
+    users.forEach((user) => {
+      this.pgService.pushPhUser(user);
+    })
+  }
+
+  @Get("users")
+  async getUsers(): Promise<JSON[]> {
+    return await this.pgService.getDbUsers();
+  }
+
+  @Get("user/:id")
+  async getUser(@Param() params): Promise<JSON[]> {
+    return await this.pgService.getDbUser(params.id);
   }
 
 }
