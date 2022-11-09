@@ -107,7 +107,8 @@ export class PgService implements OnModuleInit {
 
   pushPhUser(userJson: JSON): Promise<any> {
     return this.countUser(userJson["username"]).then((data) => {
-      if (data["count"] > 0) {
+      // console.log(data[0]["count"])
+      if (data[0] && data[0]["count"] > 0) {
         // UPDATE
         console.log(userJson["username"] + " exists \n")
       }
@@ -142,6 +143,7 @@ export class PgService implements OnModuleInit {
   countUser(username: string): Promise<any> {
     var qry = `SELECT COUNT(usr.username), usr.person_id FROM "user" usr
     WHERE usr.username = '${username}' GROUP BY usr.username, usr.person_id`;
+    // console.log(qry)
 
     return this.pg.any(qry) as Promise<any>;
   }
