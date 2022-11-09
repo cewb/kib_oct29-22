@@ -81,7 +81,7 @@ export class PgService implements OnModuleInit {
     return this.pg.any(users) as Promise<any>;
   }
 
-  deleteAllTables(): Promise<any>  {
+  deleteAllTables(): Promise<any> {
     return this.deleteTable('per_address').then(d => {
       this.deleteTable('per_contact').then(d => {
         this.deleteTable('per_email').then(d => {
@@ -90,7 +90,7 @@ export class PgService implements OnModuleInit {
               this.deleteTable('company').then(d => {
                 this.deleteTable('"user"').then(d => {
                   this.deleteTable('person').then(d => {
-                    // console.log("All tables have been cleared.")
+                     console.log("All tables have been cleared.")
                   }) as Promise<any>;
                 })
               })

@@ -32,7 +32,7 @@ export class AppController {
     return await this.pgService.getDbUser(params.id);
   }
 
-  @Delete("users_delete_all")
+  @Get("users_delete_all")
   async deleteAllUsers(): Promise<any> {
     return await this.pgService.deleteAllTables();
   }
