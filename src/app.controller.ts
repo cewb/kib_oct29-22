@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PgService } from './providers/pg/pg.service';
 
@@ -32,4 +32,8 @@ export class AppController {
     return await this.pgService.getDbUser(params.id);
   }
 
+  @Delete("users_delete_all")
+  async deleteAllUsers(): Promise<any> {
+    return await this.pgService.deleteAllTables();
+  }
 }

@@ -50,7 +50,7 @@ export class PgService implements OnModuleInit {
   }
 
 
-  
+
   getDbUser(person_id): Promise<any> {
     var users = `
     SELECT  per.person_id
@@ -81,30 +81,69 @@ export class PgService implements OnModuleInit {
     return this.pg.any(users) as Promise<any>;
   }
 
+  deleteAllTables(): Promise<any>  {
+    return this.deleteTable('per_address').then(d => {
+      this.deleteTable('per_contact').then(d => {
+        this.deleteTable('per_email').then(d => {
+          this.deleteTable('per_employment').then(d => {
+            this.deleteTable('location').then(d => {
+              this.deleteTable('company').then(d => {
+                this.deleteTable('"user"').then(d => {
+                  this.deleteTable('person').then(d => {
+                    // console.log("All tables have been cleared.")
+                  }) as Promise<any>;
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+  }
 
+  deleteTable(tableName: string): Promise<any> {
+    return this.pg.any(`DELETE FROM ${tableName}`);
+  }
 
   pushPhUser(userJson: JSON): Promise<any> {
-    return this.insertPerson(userJson).then((data) => {
-      let person_id = data[0]["person_id"];
+    return this.countUser(userJson["username"]).then((data) => {
+      if (data["count"] > 0) {
+        // UPDATE
+        console.log(userJson["username"] + " exists \n")
+      }
+      else {
+        // INSERT
+        return this.insertPerson(userJson).then((data) => {
+          let person_id = data[0]["person_id"];
 
-      this.insertUser(userJson, person_id);
-      this.insertEmail(userJson, person_id);
+          this.insertUser(userJson, person_id);
+          this.insertEmail(userJson, person_id);
 
-      this.insertPerContact(userJson, person_id);
+          this.insertPerContact(userJson, person_id);
 
-      this.insertLocation(userJson).then((data) => {
-        let location_id = data[0]["location_id"];
+          this.insertLocation(userJson).then((data) => {
+            let location_id = data[0]["location_id"];
 
-        this.insertAddress(person_id, location_id);
-      });
+            this.insertAddress(person_id, location_id);
+          });
 
-      this.insertCompany(userJson).then((data) => {
-        let company_id = data[0]["company_id"];
+          this.insertCompany(userJson).then((data) => {
+            let company_id = data[0]["company_id"];
 
-        this.insertEmployment(person_id, company_id)
-      });
-    }
-    ) as Promise<any>;
+            this.insertEmployment(person_id, company_id);
+          });
+        }
+        ) as Promise<any>;
+
+      }
+    }) as Promise<any>;
+  }
+
+  countUser(username: string): Promise<any> {
+    var qry = `SELECT COUNT(usr.username), usr.person_id FROM "user" usr
+    WHERE usr.username = '${username}' GROUP BY usr.username, usr.person_id`;
+
+    return this.pg.any(qry) as Promise<any>;
   }
 
   getPing(param: string[]): Promise<any> {
