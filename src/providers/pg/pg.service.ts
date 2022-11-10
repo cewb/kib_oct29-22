@@ -12,10 +12,12 @@ export class PgService implements OnModuleInit {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD
   }
+  
 
   pg = this.pgp(this.connConfig);
 
   onModuleInit() {
+    // console.log(this.connConfig);
     // console.log(this.pg)
     // throw new Error('Method not implemented.');
   }

@@ -8,6 +8,8 @@ import { PgService } from './providers/pg/pg.service';
 var dbSuffix = ""
 if (process.argv[2]) dbSuffix = "-dev"
 
+console.log('database' + dbSuffix + '.env');
+
 @Module({
   imports: [ConfigModule.forRoot({
     envFilePath: ['.env', 'database' + dbSuffix + '.env'],

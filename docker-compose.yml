@@ -15,7 +15,7 @@ services:
     ports:
       # Read from .env
       # Bind former (nest/node's) port to latter (docker's)
-      - "8080:8080"
+      - "8081:8081"
     volumes:
       # Maps our current project directory `.` to
       # our working directory in the container
@@ -45,13 +45,13 @@ services:
       - ./database-seed.sql:/docker-entrypoint-initdb.d/database-seed.sql
 
   # PostgreSQL pgAdmin panel accessible at http://localhost:16543/
-  pgadmin-compose:
-    container_name: pgadmin4
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "placeholder@example.com"
-      PGADMIN_DEFAULT_PASSWORD: "fakepassword123!"
-    ports:
-      - "8082:80"
-    depends_on:
-      - postgres
+  # pgadmin-compose:
+  #   container_name: pgadmin4
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "placeholder@example.com"
+  #     PGADMIN_DEFAULT_PASSWORD: "fakepassword123!"
+  #   ports:
+  #     - "8082:80"
+  #   depends_on:
+  #     - postgres
